@@ -1,5 +1,6 @@
 pipeline{
-	agent { docker 'maven:3.3.3' }
+	agent any
+
 	stages{
 		stage('build'){
 			steps{
@@ -9,6 +10,14 @@ pipeline{
 	}
 
 	post{
-		archiveArtifacts artifacts 'E:/Projects/Jenkins/JenkinsDemo/result.jar', fingerprint:true
+		always{
+			# 形成构建记录文件
+			archiveArtifacts artifacts 'E:/Projects/Jenkins/JenkinsDemo/result.jar', fingerprint:true
+
+			# 发送邮件
+			mail to: '1132276272@qq.com',
+				 subject "jenkins mail test:${currentBuild.fullDisplayName}",
+				 body:"build_url is :{$env.BUILD_URL}"
+		}
 	}
 }
