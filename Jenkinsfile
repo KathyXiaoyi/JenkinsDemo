@@ -7,6 +7,19 @@ pipeline{
 				bat 'java -version'
 			}
 		}
+
+		# 等待输入
+		stage('simple check'){
+			steps{
+				input "need to go on ?"
+			}
+		}
+
+		stage('test'){
+			steps{
+				bat 'mvn -v'
+			}
+		}
 	}
 
 	post{
